@@ -12997,10 +12997,10 @@ Testing set has 9045 samples.
         <span class="n">count_0</span> <span class="o">=</span> <span class="n">count_0</span> <span class="o">+</span> <span class="mi">1</span>
 <span class="n">accuracy</span> <span class="o">=</span> <span class="n">count_1</span><span class="o">/</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="c1"># TODO： 计算查准率 Precision</span>
-<span class="n">precision</span> <span class="o">=</span> <span class="n">count_1</span> <span class="o">/</span> <span class="n">count_1</span>
+<span class="n">precision</span> <span class="o">=</span> <span class="n">count_1</span> <span class="o">/</span> <span class="p">(</span><span class="n">count_0</span> <span class="o">+</span> <span class="n">count_1</span><span class="p">)</span>
 
 <span class="c1"># TODO： 计算查全率 Recall</span>
-<span class="n">recall</span> <span class="o">=</span> <span class="n">count_1</span> <span class="o">/</span> <span class="p">(</span><span class="n">count_0</span> <span class="o">+</span> <span class="n">count_1</span><span class="p">)</span>
+<span class="n">recall</span> <span class="o">=</span> <span class="n">count_1</span> <span class="o">/</span> <span class="n">count_1</span> <span class="o">+</span> <span class="mi">0</span> 
 
 <span class="c1"># TODO： 使用上面的公式，设置beta=0.5，计算F-score</span>
 <span class="n">fscore</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mf">0.5</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">precision</span><span class="o">*</span><span class="n">recall</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.5</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">precision</span> <span class="o">+</span> <span class="n">recall</span><span class="p">)</span>
@@ -13029,9 +13029,9 @@ Testing set has 9045 samples.
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Naive Predictor on validation data: 
      Accuracy score: 0.2478 
-     Precision: 1.0000 
-     Recall: 0.2478 
-     F-score: 0.6223
+     Precision: 0.2478 
+     Recall: 1.0000 
+     F-score: 0.2917
 </pre>
 </div>
 </div>
@@ -14114,9 +14114,9 @@ ZKAQERERERF9/H9nODz6Zn+qOQAAAABJRU5ErkJggg==
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>回答： </strong></p>
 <ul>
-<li>该模型的主要运作方式是：对所有的训练数据点进行线性回归，即找到距离所有数据点距离之和最小的一条直线，</li>
-<li>然后通过直线上的预测值和真实结果结合某种分类函数，做出&gt;=50和&lt;50的判断，</li>
-<li>最后将已知的数据和这条直线进行对比，找到这个数据点所处的位置，再通过刚才的分类函数，将数据点所处的位置进行判断，由此得出结果是&gt;=50还是&lt;50。</li>
+<li>该模型，即Logistic回归模型需要通过多个特征，来求得函数模型，这里的特征就像是函数的自变量，例如y=f(x)的x，函数就是这个概率模型，因为每个特征对结果的影响程度不同，因此每个特征的权重不一样，需要通过数据来求得每个特征的权重，但是通过这种加权求和的方式得到的结果范围很大，为了预测的准确率，我们将结果的值限制在（0，1）之间，这个时候可以使用特定的逻辑函数将结果归到两种类别中。</li>
+<li>但是如果想要较精确的通过模型做出结论，那就要最大限度的减小误差，损失函数的作用就是这个，该函数用于衡量预测值和实际值的偏离程度，损失函数的值越小，则模型越精确，损失函数值越大，则，模型越糟糕，使得损失函数最小的那些参数值，就是最优的参数值。</li>
+<li>想要使得损失函数最小，常用的一种方法是梯度下降法，顾名思义，这个方法就是通过在模型函数上，不断更新参数的值，使得模型函数极小化，直至“不在变化”，这个时候的损失函数值最小，也就是模型最优。</li>
 </ul>
 
 </div>
